@@ -1,12 +1,11 @@
 const { Router } = require('express');
 const getAllVideogames = require('../../controlers/getAllVGames');
 const getGameByName = require('../../controlers/getByNameQuery');
+const postVGame = require('../../controlers/postVGame');
 const routerVGames = Router();
 
 
 routerVGames.get('/', async (req, res) => {
-
-
     const { name } = req.query;
     try {
         if (name) {
@@ -22,7 +21,16 @@ routerVGames.get('/', async (req, res) => {
     }
 })
 
-/* routerVGames.post */
+routerVGames.post('/', async (req, res) => {
+    let data = req.body
+    try {
+        await postVGame(data)
+        res.status(202).send({message : 'se pudo subir con exito :D'})
+    } catch (error) {
+        res.status(404).json({ error: error.message })
+    }
+
+})
 
 
 

@@ -11,27 +11,31 @@ const getAllVideogames = async () => {
     const allVideoGames100 = [];
 
     try {
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 1; i++) {
             let ofUrl = await axios.get(url)
             ofUrl.data.results.map(games => {
                 allVideoGames100.push({
                     id: games.id,
                     name: games.name,
-                    description: games.description,
+                    bg_image: games.background_image,
+                    /* description: games.description, */
                     relase: games.relase,
                     rating: games.rating,
-                    background_image: games.background_image,
+                    /* background_image: games.background_image, */
                     parent_platforms: games.parent_platforms.map(platform => platform.platform.name),
-                    platf_especific: games.platforms.map(platform => platform.platform.name),
+                    /* platf_especific: games.platforms.map(platform => platform.platform.name), */
                     stores: games.stores.map(store => store.store.name),
                     genres: games.genres.map(genre => genre.name),
                     tags: games.tags.map(tag => tag.name),
-                    image: games.short_screenshots.map(img => img.image)
+                    /* image: games.short_screenshots.map(img => img.image) */
+                    /* saco algunas cosas de la petición para no estar sacando algo qeu en ese momento no voy
+                    a necesitar. peroo, de igual modo algunas cosas no se van a usar explisitamente
+                    pero me van a servir para asociar a ciertos filtros que pondré, como platforms o genres */
                 });
             });
             url = ofUrl.data.next
         };
-        console.log('TOOOODOSSSS LOS JUEGOOOOOOOSSSS =>>>>>>>> ',allVideoGames100)
+        console.log('TOOOODOSSSS LOS JUEGOOOOOOOSSSS =>>>>>>>> ', allVideoGames100)
         return allVideoGames100;
     } catch (error) {
         console.log(error.message)

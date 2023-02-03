@@ -7,6 +7,15 @@
 ## controlers
     los controlers responden correctamente con la api, pude subir generos a la base de datos.
 
+    X => falta terminar el post !!!!!!
+
+    X => AL CONTROLER DE GETBYNAMEQUERY, DEBE DE CAMBIARSE EL MENSAJE, ADECUAR MÁS A LA INSTANCIA EN LA QUE ESTAMOS
+
 ## rutas
     las rutas son simples, no se si le puedo agregar una complejidad ;;;
 
+
+
+# front
+
+ALERT: APLICAR USEEFFECT PARA PODER MONTAR LOS COMPONENTES PROVISTOS POR EL BACK

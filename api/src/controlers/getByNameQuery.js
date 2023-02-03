@@ -7,7 +7,7 @@ const getGameByName = async (name) => {
 
     console.log('pudiste entrar mi loco :D')
 
-    let API_URL = `https://api.rawg.io/api/games?key=${KEY_API}`
+    let API_URL = `https://api.rawg.io/api/games?search=${name}&key=${KEY_API}&page_size=15`
 
     let all = await axios.get(API_URL);
 
@@ -15,16 +15,21 @@ const getGameByName = async (name) => {
 
     if (!result) throw Error('o te quedaste sin llamados o no hay juegos')
 
-    let games = result.filter(obj => obj.hasOwnProperty('name'))
-        .map(obj => obj.name);
+    let games = [];
 
-    console.log(games)
-
-    games = games.filter(n => n.includes(name))
+    result.map(obj => {
+        
+        games.push({
+            name: obj.name,
+            background_image: obj.background_image,
+            rating: obj.rating,
+            parent_platforms: obj.parent_platforms.map(platform => platform.platform.name)
+        })
+        console.log(games)
+    });
 
     console.log('results =>>>>> ', games)
-
-
+    return games
 }
 
 module.exports = getGameByName

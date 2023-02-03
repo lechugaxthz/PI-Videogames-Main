@@ -32,6 +32,8 @@ const getGenres = async () => {
                 }
             })
         });
+        
+        console.log('genres =>>>>>> ',genres)
 
         return genres
 

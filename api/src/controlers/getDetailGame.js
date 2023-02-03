@@ -17,12 +17,14 @@ const getDetailGame = async (id) => {
         let ofUrl = await axios.get(url)
         let toEstract = await ofUrl.data
         console.log('results =>>> ', await toEstract)
+        
+        console.log('relase =>>>>>>> ', toEstract.released)
 
         findDataGame.push({
             id: toEstract.id,
             name: toEstract.name,
             description: toEstract.description,
-            relase: toEstract.relase,
+            relase: toEstract.released,
             rating: toEstract.rating,
             background_image: toEstract.background_image,
             parent_platforms: toEstract.parent_platforms.map(platform => platform.platform.name),
