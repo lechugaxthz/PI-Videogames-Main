@@ -14,6 +14,7 @@ import {
      PostNewGame,
      toFilter */
 } from "../redux/action/actions.js";
+import NavBar from "./inNav/nav";
 
 
 export default function HomeAllGames() {
@@ -22,7 +23,7 @@ export default function HomeAllGames() {
     /* aplicar el estado de redux */
     useLayoutEffect(() => {
         dispatch(GetAllVGames());
-        /* dispatch(GetAllGamesGenres()); */
+        dispatch(GetAllGamesGenres());
     }, [])
     /* traer los generos, juegos, filtrados y demas del Store */
     /* const AllGenresGames = useSelector((state) => state.genres);
@@ -31,7 +32,8 @@ export default function HomeAllGames() {
 
     return (
         <div>
-            ando en otra
+            <NavBar/>
+            <br/>
             <h1>los juegos:</h1>
             <BoxCards />
 

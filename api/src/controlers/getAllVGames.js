@@ -23,11 +23,11 @@ const getAllVideogames = async () => {
                     released: games.released,
                     rating: games.rating,
                     /* background_image: games.background_image, */
-                    parent_platforms: games.parent_platforms.map(platform => platform.platform.name),
+                    /* parent_platforms: games.parent_platforms.map(platform => platform.platform.name), */
                     /* platf_especific: games.platforms.map(platform => platform.platform.name), */
-                    stores: games.stores.map(store => store.store.name),
-                    genres: games.genres.map(genre => genre.name),
-                    tags: games.tags.map(tag => tag.name),
+                    /* stores: games.stores.map(store => store.store.name), */
+                    /* genres: games.genres.map(genre => genre.name), */
+                    /* tags: games.tags.map(tag => tag.name), */
                     /* image: games.short_screenshots.map(img => img.image) */
                     /* saco algunas cosas de la petición para no estar sacando algo qeu en ese momento no voy
                     a necesitar. peroo, de igual modo algunas cosas no se van a usar explisitamente

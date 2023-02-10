@@ -5,7 +5,8 @@ import {
     GET_BY_ID,
     GET_SEARCH_GAME,
     POST_NEW_GAME,
-    FILTER
+    FILTER,
+    RESET
 } from '../actionsTypes'
 
 console.log(GET_ALL_GAMES);
@@ -36,8 +37,27 @@ export const GetDetailGame = (id) => {
         let game = await axios.get(`http://localhost:3001/videogame/${id}`)
         console.log('detail ===> ', game.data);
         return dispach({
-            type:GET_BY_ID,
+            type: GET_BY_ID,
             payload: game.data
+        })
+    }
+}
+
+export const searchGames = (name) => {
+    return async function (dispach) {
+        let games = await axios.get(`http://localhost:3001/videogames?name=${name}`)
+        return dispach({
+            type: GET_SEARCH_GAME,
+            payload: games.data
+        })
+    }
+}
+
+export const ResetGames = () => {
+    return async function (dispach) {
+        return dispach({
+            type: RESET,
+            payload: []
         })
     }
 }

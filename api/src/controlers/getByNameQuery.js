@@ -21,10 +21,12 @@ const getGameByName = async (name) => {
     result.map(obj => {
         
         games.push({
+            id: games.id,
             name: obj.name,
-            background_image: obj.background_image,
+            bg_image: obj.background_image,
             rating: obj.rating,
-            parent_platforms: obj.parent_platforms.map(platform => platform.platform.name)
+            released: games.released,
+            /* parent_platforms: obj.parent_platforms.map(platform => platform.platform.name) */
         })
         console.log(games)
     });

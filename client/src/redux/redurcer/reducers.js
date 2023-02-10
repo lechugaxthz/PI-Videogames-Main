@@ -4,13 +4,14 @@ import {
     GET_BY_ID,
     GET_SEARCH_GAME,
     POST_NEW_GAME,
-    FILTER
+    FILTER,
+    RESET
 } from '../actionsTypes'
 
 const initialState = {
     all100Games: [],
     searchedGames: [],
-    filteredGmaes: {},
+    filteredGames: {},
     genres: [],
     detailGame: [],
     /* loading: false */
@@ -23,6 +24,8 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 all100Games: action.payload,
+                searchedGames: [],
+                filteredGames: []
             };
         case GET_ALL_GENRES:
             return {
@@ -33,6 +36,16 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 detailGame: action.payload,
+            }
+        case GET_SEARCH_GAME:
+            return {
+                ...state,
+                searchedGames: action.payload
+            }
+        case RESET:
+            return {
+                ...state,
+                searchedGames: action.payload
             }
         default:
             return {

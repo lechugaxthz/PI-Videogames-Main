@@ -3,8 +3,9 @@ import { Route, Routes } from 'react-router-dom';
 import HomeAllGames from './components/homeAllGames';
 import axios from "axios"
 import './App.css';
-import Nav from './components/inNav/nav.jsx';
+/* import Nav from './components/inNav/nav.jsx'; */
 import DetailGame from './components/detailGame/detailGame';
+import Home from './components/home/home';
 
 
 
@@ -25,11 +26,11 @@ function App() {
 
   return (
     <div className="App">
-      <Nav />
-      <Routes>
 
-        <Route path='/videogames' element={<HomeAllGames/>} />
-        <Route path='videogame/:id' element={<DetailGame/>} />
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/videogames' element={<HomeAllGames />} />
+        <Route path='videogame/:id' element={<DetailGame />} />
       </Routes>
     </div>
   );

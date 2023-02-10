@@ -1,14 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { ResetGames, searchGames } from "../../redux/action/actions";
 import './cssInNav/nav.css'
 
-export default function Nav() {
+const NavBar = () => {
+
+    const dispatch = useDispatch()
+
+    const [searchGameName , setSearchGameName] = useState('')
+
+    const getName = (event) => {
+        console.log(event.target.value);
+        setSearchGameName(event.target.value)
+    }
 
 
     return (
         <section >
-            {/* <img src={'../../img/logoImg/henry-videogames-low-resolution-logo-color-on-transparent-background.png'} alt='una imagen' /> NO ME DA LA IMAGEN PNG */}
-            <h1>Henry Videogames</h1>
-
+            {/* poner alguna imagen de logo que está ya cargada... */}
+            <div>
+                <input type='text' placeholder="search game" onChange={getName} />
+                <button onClick={() => {dispatch(searchGames(searchGameName))}}>Search</button>
+            </div>
+            <hr/>
+            <div>
+                <button onClick={() => {dispatch(ResetGames())}}>Reset</button>
+            </div>
         </section>
     )
 }
+
+export default NavBar
