@@ -15,6 +15,7 @@ const getGameByName = async (name) => {
 
     if (!result) throw Error('o te quedaste sin llamados o no hay juegos')
 
+    
     let games = [];
 
     result.map(obj => {

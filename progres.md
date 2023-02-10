@@ -11,6 +11,8 @@
 
     X => AL CONTROLER DE GETBYNAMEQUERY, DEBE DE CAMBIARSE EL MENSAJE, ADECUAR MÁS A LA INSTANCIA EN LA QUE ESTAMOS
 
+    Y => revisar que todos los controlers pasen los daros requeridos
+
 ## rutas
     las rutas son simples, no se si le puedo agregar una complejidad ;;;
 

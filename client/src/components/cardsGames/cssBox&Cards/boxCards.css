@@ -1,0 +1,9 @@
+.cardsBox {
+    display: flex;
+    grid-template-columns: repeat(6, 1fr);
+    row-gap: 20px;
+    margin-top: 10px;
+    /* height: 500px;
+    width: 150px; */
+    /* flex-wrap:nowrap; */
+}

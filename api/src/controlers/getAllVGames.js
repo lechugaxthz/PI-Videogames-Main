@@ -1,5 +1,6 @@
 require('dotenv').config();
 const axios = require("axios");
+const { Videogames } = require("../db.js")
 const { KEY_API } = process.env;
 
 const getAllVideogames = async () => {
@@ -11,7 +12,7 @@ const getAllVideogames = async () => {
     const allVideoGames100 = [];
 
     try {
-        for (let i = 0; i < 1; i++) {
+        for (let i = 0; i < 1; i++) { /* actualizar el numero de vueltas a 5, ahora está en 1 para no consumir tantos llamados */
             let ofUrl = await axios.get(url)
             ofUrl.data.results.map(games => {
                 allVideoGames100.push({
@@ -19,7 +20,7 @@ const getAllVideogames = async () => {
                     name: games.name,
                     bg_image: games.background_image,
                     /* description: games.description, */
-                    relase: games.relase,
+                    released: games.released,
                     rating: games.rating,
                     /* background_image: games.background_image, */
                     parent_platforms: games.parent_platforms.map(platform => platform.platform.name),
@@ -35,6 +36,9 @@ const getAllVideogames = async () => {
             });
             url = ofUrl.data.next
         };
+
+        /* allVideoGames100.push() */
+
         console.log('TOOOODOSSSS LOS JUEGOOOOOOOSSSS =>>>>>>>> ', allVideoGames100)
         return allVideoGames100;
     } catch (error) {
