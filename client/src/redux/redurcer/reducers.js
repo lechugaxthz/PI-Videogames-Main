@@ -5,13 +5,15 @@ import {
     GET_SEARCH_GAME,
     POST_NEW_GAME,
     FILTER,
-    RESET
+    RESET,  
+    RESET_FILTERS
 } from '../actionsTypes'
 
 const initialState = {
     all100Games: [],
     searchedGames: [],
-    filteredGames: {},
+    clone: [],
+    filteredGames: [],
     genres: [],
     detailGame: [],
     /* loading: false */
@@ -24,8 +26,7 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 all100Games: action.payload,
-                searchedGames: [],
-                filteredGames: []
+                clone: action.payload
             };
         case GET_ALL_GENRES:
             return {
@@ -40,12 +41,24 @@ const rootReducer = (state = initialState, action) => {
         case GET_SEARCH_GAME:
             return {
                 ...state,
-                searchedGames: action.payload
+                searchedGames: action.payload,
+                clone: action.payload
+            }
+        case FILTER:
+            return {
+                ...state,
+                filteredGames: action.payload
             }
         case RESET:
             return {
                 ...state,
-                searchedGames: action.payload
+                searchedGames: action.payload,
+                clone: state.all100Games
+            }
+        case RESET_FILTERS:
+            return {
+                ...state,
+                filteredGames: action.payload
             }
         default:
             return {

@@ -12,36 +12,65 @@ export default function BoxCards() {
     const All100GamesList = useSelector((state) => state.all100Games);
     const SearchGamesList = useSelector((state) => state.searchedGames);
     const FilteredGamesList = useSelector((state) => state.filteredGames);
-    
+
     /* console.log('acaaa =>>>>>>>', All100GamesList)
-    console.log('acaaa =>>>>>>>', SearchGamesList)
-    console.log('acaaa =>>>>>>>', FilteredGamesList) */
+    console.log('acaaa =>>>>>>>', SearchGamesList) */
+    console.log('acaaa =>>>>>>>', FilteredGamesList)
 
-    /* States to pages */
-    const [page, setPage] = useState({
-    
-    })
+    let data
 
-    
+    if (SearchGamesList.length) {
+        if (FilteredGamesList.length) {
+            data = FilteredGamesList
+        }
+        data = SearchGamesList
+    } else {
+        if (FilteredGamesList.length) {
+            data = FilteredGamesList
+        } else {
+            data = All100GamesList
+        }
+    }
 
-    /* let toView;
+    /* pagess */
+    const [currentPage, setCurrentPage] = useState(1);
+    let gamesPerPage = 15;
 
-    if (FilteredGamesList.length) toView = FilteredGamesList
+    const lastIndex = currentPage * gamesPerPage;
+    const firstIndex = lastIndex - gamesPerPage;
+    const currentData = data.slice(firstIndex, lastIndex);
 
-    if (SearchGamesList.length && FilteredGamesList.length === 0) toView = SearchGamesList
+    const handleNextPg = () => {
+        setCurrentPage(currentPage + 1);
+    };
 
-    if (SearchGamesList.length === 0 && FilteredGamesList.length === 0) toView = All100GamesList */
-
-
-
-
-    /* console.log('toView =====> ', toView) */
-
-
+    const handlePrevPg = () => {
+        setCurrentPage(currentPage - 1);
+    };
 
     return (
-        <section className="cardsBox">
-            {
+        <div>
+            <section className="cardsBox">
+                {
+                    currentData.map((game) => {
+                        return (
+                            <Cards
+                                key={game.id}
+                                id={game.id}
+                                name={game.name}
+                                bg_image={game.bg_image}
+                                released={game.released}
+                                rating={game.rating}
+                                genres={game.genres}
+
+                            />
+                        )
+
+                    })
+
+                }
+
+                {/* {
                 FilteredGamesList.length
                     ? FilteredGamesList.map((game, index) => {
                         return (
@@ -52,16 +81,13 @@ export default function BoxCards() {
                                 bg_image={game.bg_image}
                                 released={game.released}
                                 rating={game.rating}
-                            /* parent_platforms={game.parent_platforms}
-                            stores={game.stores}
-                            genres={game.genres}
-                            tags={game.tags} */
+                                genres={game.genres}
+
                             />
                         )
                     })
                     : SearchGamesList.length
                         ? SearchGamesList.map((game, index) => {
-                            /* console.log(game.name) */
                             return (
                                 <Cards
                                     key={index}
@@ -70,15 +96,11 @@ export default function BoxCards() {
                                     bg_image={game.bg_image}
                                     released={game.released}
                                     rating={game.rating}
-                                /* parent_platforms={game.parent_platforms}
-                                stores={game.stores}
-                                genres={game.genres}
-                                tags={game.tags} */
+                                    genres={game.genres}
                                 />
                             )
                         })
                         : All100GamesList.map((game, index) => {
-                            /* console.log(game.name) */
                             return (
                                 <Cards
                                     key={index}
@@ -87,40 +109,16 @@ export default function BoxCards() {
                                     bg_image={game.bg_image}
                                     released={game.released}
                                     rating={game.rating}
-                                /* parent_platforms={game.parent_platforms}
-                                stores={game.stores}
-                                genres={game.genres}
-                                tags={game.tags} */
+                                    genres={game.genres}
                                 />
                             )
                         })
 
-            }
-        </section>
+            } */}
+            </section>
+            <button onClick={() => handlePrevPg()}>prev</button>
+            <button onClick={() => handleNextPg()}>next</button>
+        </div>
 
     )
 }
-
-
-
-
-
-
-/* {
-                x.map(game => {
-                    return (
-                        <Cards
-                            id={game.id}
-                            name={game.name}
-                            bg_image={game.background_image}
-                            released={game.released}
-                            rating={game.rating}
-                            parent_platforms={game.parent_platforms.map(platform => platform.platform.name)}
-                            stores={game.stores.map(store => store.store.name)}
-                            genres={game.genres.map(genre => genre.name)}
-                            tags={game.tags.map(tag => tag.name)}
-                        />
-                    )
-                })
-
-            } */

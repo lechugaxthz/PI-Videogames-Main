@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
 
+    
     return (
         <div>
             <Link to='/videogames'><button>all Games</button></Link>

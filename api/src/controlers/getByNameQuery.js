@@ -15,17 +15,19 @@ const getGameByName = async (name) => {
 
     if (!result) throw Error('o te quedaste sin llamados o no hay juegos')
 
-    
+
     let games = [];
 
     result.map(obj => {
-        
+
         games.push({
-            id: games.id,
+            id: obj.id,
             name: obj.name,
             bg_image: obj.background_image,
             rating: obj.rating,
-            released: games.released,
+            released: obj.released,
+            genres: obj.genres,
+            createdInDb: false
             /* parent_platforms: obj.parent_platforms.map(platform => platform.platform.name) */
         })
         console.log(games)
