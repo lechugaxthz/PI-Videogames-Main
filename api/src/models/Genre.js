@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
       unique: true,
     },
     name: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: DataTypes.STRING,
       
     }
   }, { timestamps: false })

@@ -1,47 +1,42 @@
-const { Videogame, Genre } = require('../db.js');
+const { Videogame, Genre } = require('../db');
 
 const postVGame = async (data) => {
 
-    const { name, description, released, rating, plataforms, genres } = data;
+    const { name, image, description, released, rating, plataforms, genres } = data;
+
+    console.log('Videogame =>>>>>>> ', Videogame);
+    console.log('Genre =>>>>>> ', Genre)
 
     try {
-        /* console.log('Data =>>>>>> ', data); */
 
         if (data) {
+            console.log('Data =>>>>>> ', data);
 
             /* console.log('name =>>>>> ', plataforms); */
 
-            const game = await Videogame.findOrCreate({
+            const game = await Videogame.create({
                 where: {
                     name,
+                    image,
                     description,
                     released,
                     rating,
-                    plataforms
+                    plataforms,
                 }
             })
-
-            console.log('Genre =>>>>>> ')
+            console.log('game =>>>>>>> ', game);
 
             genres.forEach(async gen => {
                 const [genre, created] = await Genre.findOrCreate({
                     where: {
-                        name: [gen],
+                        name: gen,
                     }
                 });
                 await game.addGenre(genre)
                 console.log(created)
             })
 
-            /* genres.forEach(async gen => {
-                let [genre, created] = await Genre.findOrCreate({
-                    where: {
-                        name: [gen.name],
-                    }
-                });
-                await game.addGenre(genre)
-                console.log('createddd =>>>> ', created);
-            }) */
+            return game
 
         } else {
             throw new Error('faltan completar campos o algo has metido mal :O')

@@ -28,7 +28,7 @@ const getGenres = async () => {
         genres.forEach(element => {
             Genre.findOrCreate({
                 where: {
-                    name: [element.name]
+                    name: element.name
                 }
             })
         });

@@ -15,11 +15,12 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     released: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.STRING,
+      defaultValue: DataTypes.NOW
     },
     rating: {
       type: DataTypes.INTEGER,
@@ -27,6 +28,9 @@ module.exports = (sequelize) => {
     plataforms: {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,
+    },
+    image: {
+      type:DataTypes.STRING,
     },
     createdInDb: {
       type: DataTypes.BOOLEAN,

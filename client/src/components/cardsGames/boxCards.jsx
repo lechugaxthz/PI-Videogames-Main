@@ -22,8 +22,9 @@ export default function BoxCards() {
     if (SearchGamesList.length) {
         if (FilteredGamesList.length) {
             data = FilteredGamesList
+        } else {
+            data = SearchGamesList
         }
-        data = SearchGamesList
     } else {
         if (FilteredGamesList.length) {
             data = FilteredGamesList

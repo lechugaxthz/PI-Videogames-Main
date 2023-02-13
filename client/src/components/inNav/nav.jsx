@@ -6,8 +6,10 @@ import './cssInNav/nav.css'
 const NavBar = () => {
 
     const dispatch = useDispatch()
-    const cloneGames = useSelector((state) => state.clone)
-    const filteredGamesList = useSelector((state) => state.filteredGames)
+    const cloneGames = useSelector(state => state.clone)
+    const filteredGamesList = useSelector(state => state.filteredGames)
+    const SearchedGamesList = useSelector(state => state.searchedGames)
+    const genresGamesList = useSelector(state => state.genres)
     /* Search */
     const [searchGameName, setSearchGameName] = useState('')
     const getName = (event) => {
@@ -16,10 +18,17 @@ const NavBar = () => {
     }
     /* FilterView and reset */
     const [viewFilter, setViewFilter] = useState(false)
-    /* Filter state */
-    /* const [filter, setFilter] = useState([]) */
+    /* Filter by Genre */
+    const [selectedOption, setSelectedOption] = useState("");
+    console.log('option ======> ', selectedOption);
+
+    const HC_Option = (event) => {
+        setSelectedOption(event.target.value);
+    };
+
     /* Filter */
     const [A_Z, setA_Z] = useState(false)
+    console.log('true or false =====> ',A_Z);
     const [Z_A, setZ_A] = useState(false)
     const [RatingUp, setRatingUp] = useState(false)
     const [RatingDown, setRatingDown] = useState(false)
@@ -29,7 +38,7 @@ const NavBar = () => {
 
     let HC_A_Z = () => {
         if (A_Z) {
-            setZ_A(!A_Z)
+            setA_Z(!A_Z)
         } else {
             setA_Z(!A_Z)
             setZ_A(false)
@@ -90,49 +99,94 @@ const NavBar = () => {
         }
     }
 
-    let toOrder = [...cloneGames]
-    let filteredDB = cloneGames.filter(game => game.createdInDb === true)
-    let filteredAPI = cloneGames.filter(game => game.createdInDb !== true)
+    let toOrder
+    let filteredDB
+    let filteredAPI
+    if (SearchedGamesList.length === 0) {
+        toOrder = [...cloneGames]
+        filteredDB = cloneGames.filter(game => game.createdInDb === true)
+        filteredAPI = cloneGames.filter(game => game.createdInDb !== true)
+    } else {
+        toOrder = [...SearchedGamesList]
+        filteredDB = SearchedGamesList.filter(game => game.createdInDb === true)
+        filteredAPI = SearchedGamesList.filter(game => game.createdInDb !== true)
+    }
 
     let ordenado
 
     const toViewInHome = (event) => {
         event.preventDefault()
-        ordenado = false
+        console.log('toOrder in search =======> ',toOrder);
         if (!onLyAPI && !onLyDB) {
             console.log('se llego');
-
+            ordenado = toOrder
             if (A_Z) ordenado = toOrder.sort(function (a, z) { return a.name.localeCompare(z.name) })
             if (Z_A) ordenado = toOrder.sort(function (a, z) { return z.name.localeCompare(a.name) })
             if (RatingUp) ordenado = toOrder.sort(function (low, max) { return low.rating - max.rating })
             if (RatingDown) ordenado = toOrder.sort(function (low, max) { return max.rating - low.rating })
 
-            console.log('ordenado UP =====> ', ordenado);
-            dispatch(FilterGamesClone(ordenado))
+            if (selectedOption !== '') {
+                ordenado = ordenado.filter(game => game.genres.find(gen => gen.name === selectedOption))
+                return dispatch(FilterGamesClone(ordenado))
+            } else {
+                return dispatch(FilterGamesClone(ordenado))
+            }
         }
 
         if (onLyAPI) {
-            console.log('se llego dentro de onlyApi');
-
+            ordenado = filteredAPI
             if (A_Z) ordenado = filteredAPI.sort(function (a, z) { return a.name.localeCompare(z.name) })
             if (Z_A) ordenado = filteredAPI.sort(function (a, z) { return z.name.localeCompare(a.name) })
             if (RatingUp) ordenado = filteredAPI.sort(function (low, max) { return low.rating - max.rating })
             if (RatingDown) ordenado = filteredAPI.sort(function (low, max) { return max.rating - low.rating })
-            console.log('toOder =====> ', toOrder);
 
-            dispatch(FilterGamesClone(ordenado))
+
+            if (selectedOption !== '') {
+                ordenado = ordenado.filter(game => game.genres.find(gen => gen.name === selectedOption))
+                dispatch(FilterGamesClone(ordenado))
+            } else {
+                dispatch(FilterGamesClone(ordenado))
+            }
+
+
+
         }
         if (onLyDB) {
-            console.log('se llego dentro de DB');
-
+            ordenado = filteredDB
             if (A_Z) ordenado = filteredDB.sort(function (a, z) { return a.name.localeCompare(z.name) })
             if (Z_A) ordenado = filteredDB.sort(function (a, z) { return z.name.localeCompare(a.name) })
             if (RatingUp) ordenado = filteredDB.sort(function (low, max) { return low.rating - max.rating })
             if (RatingDown) ordenado = filteredDB.sort(function (low, max) { return max.rating - low.rating })
-            console.log('toOder =====> ', toOrder);
 
-            if (ordenado.length === 0 || ordenado === false) window.alert('mi loco, no tienes nada en DB')
-            dispatch(FilterGamesClone(ordenado))
+            if (ordenado.length === 0 || ordenado === false) {
+                window.alert('mi loco, no tienes nada en DB')
+            } else {
+                if (selectedOption !== '') {
+                    if (ordenado.find(game => game.genre === selectedOption)) {
+                        ordenado = ordenado.filter(game => game.genres.find(gen => gen.name === selectedOption))
+                        dispatch(FilterGamesClone(ordenado))
+                    } else {
+                        window.alert('no se encontraron juegos con el filtro indicado en la base de datos')
+                    }
+                } else {
+                    dispatch(FilterGamesClone(ordenado))
+                }
+            }
+
+            /* ordenado.length === 0 || ordenado === false
+                ? window.alert('mi loco, no tienes nada en DB')
+                : selectedOption !== ''
+                    ? ordenado.find(game => game.genre === selectedOption)
+                        ? (
+                            ordenado = ordenado.filter(game => game.genre === selectedOption),
+                            dispatch(FilterGamesClone(ordenado))
+                        )
+                        : window.alert('no se encontraron juegos con el filtro indicado en la base de datos')
+                    : dispatch(FilterGamesClone(ordenado)) */
+
+
+
+
         }
     }
 
@@ -156,6 +210,15 @@ const NavBar = () => {
                             } /> Only DB
                             <input checked={onLyAPI} type={"checkbox"} onChange={() => { HC_OnlyAPI() }
                             } /> Only API
+                            <select value={selectedOption} onChange={HC_Option}>
+                                <option value=''>Select Genre</option>
+                                {
+                                    genresGamesList.map(genre => {
+                                        return (<option value={genre.name}>{genre.name}</option>)
+
+                                    })
+                                }
+                            </select>
                             <button type="submit">Filter</button>
                             <button onClick={() => {
                                 if (filteredGamesList.length) {
