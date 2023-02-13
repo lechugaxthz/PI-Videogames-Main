@@ -10,19 +10,18 @@ const postVGame = async (data) => {
     try {
 
         if (data) {
-            console.log('Data =>>>>>> ', data);
+            console.log('Data =>>>>>> ', name);
 
             /* console.log('name =>>>>> ', plataforms); */
 
             const game = await Videogame.create({
-                where: {
-                    name,
-                    image,
-                    description,
-                    released,
-                    rating,
-                    plataforms,
-                }
+                name,
+                image,
+                description,
+                released,
+                rating,
+                plataforms,
+
             })
             console.log('game =>>>>>>> ', game);
 

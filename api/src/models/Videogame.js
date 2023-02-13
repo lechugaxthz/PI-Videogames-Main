@@ -20,7 +20,6 @@ module.exports = (sequelize) => {
     },
     released: {
       type: DataTypes.STRING,
-      defaultValue: DataTypes.NOW
     },
     rating: {
       type: DataTypes.INTEGER,
