@@ -12,7 +12,7 @@ const getAPIGames = async () => {
     const allVideoGames100 = [];
 
     try {
-        for (let i = 0; i < 1; i++) { /* actualizar el numero de vueltas a 5, ahora está en 1 para no consumir tantos llamados */
+        for (let i = 0; i < 5; i++) { /* actualizar el numero de vueltas a 5, ahora está en 1 para no consumir tantos llamados */
             let ofUrl = await axios.get(url)
             ofUrl.data.results.map(games => {
                 allVideoGames100.push({

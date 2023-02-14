@@ -35,28 +35,44 @@ const DetailGame = () => {
                 {DetailVGame_byId.name}
             </h1>
             <img src={DetailVGame_byId.background_image} />
-            <img src={DetailVGame_byId.image} />
+            {/* <div>
+                {
+                    DetailVGame_byId.image.map(img => {
+                        return (
+                            <img src={img} />
+                        )
+                    })
+                }
+            </div> */}
             <h3>
+                <h5>Description:</h5>
                 {DetailVGame_byId.description}
             </h3>
-            <h5>
-                {DetailVGame_byId.released}
-            </h5>
-            <h5>
-                {DetailVGame_byId.rating}
-            </h5>
             <h4>
+                <h5>Released Date:</h5>
+                {DetailVGame_byId.released}
+            </h4>
+            <h4>
+                <h5>Rating:</h5>
+                💥{DetailVGame_byId.rating}
+            </h4>
+            <h4>
+                <h5>Platforms:</h5>
                 {DetailVGame_byId.parent_platforms}
             </h4>
             <h4>
+                <h5>Consoles:</h5>
                 {DetailVGame_byId.platf_especific}
             </h4>
             <h4>
+                <h5>Stores:</h5>
                 {DetailVGame_byId.stores}
             </h4>
             <h4>
+                <h5>Genres:</h5>
                 {DetailVGame_byId.genres}
             </h4>
+            <h5>All Tags:</h5>
             <ul>
                 {
                     DetailVGame_byId.tags

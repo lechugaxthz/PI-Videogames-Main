@@ -11,22 +11,27 @@ export default function Cards(props) {
 
     return (
         <section className="inBox" /* onClick={id} */>{/* acá va a ir el on click que mandé al id ese para los datos particulares del juego */}
-            <h1>{name}</h1>{/* tranquilamente podria poner el "id" en lo que es name y bg_image, asi no pisamos nada...  */}
+            <div>
+                <h1>{name}</h1>{/* tranquilamente podria poner el "id" en lo que es name y bg_image, asi no pisamos nada...  */}
+            </div>
             <img className="imgProp" src={bg_image} alt='imagen del juego' />
             <h3>{released}</h3>
-            <h3>{rating}</h3>
-            <ul>
+            <h3>💥{rating}</h3>
+
+            <ul className="sectionCard">
+                Genres:
                 {
                     genres.map(gen => {
                         return (
-                            <li>
+                            <li className="props">
                                 {gen.name}
                             </li>
                         )
                     })
                 }
             </ul>
-            <Link to={`/videogame/${id}`} >
+
+            <Link className="link" to={`/videogame/${id}`} >
                 <h5>About: {name}</h5>
             </Link>
         </section >

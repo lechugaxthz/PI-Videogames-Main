@@ -102,7 +102,19 @@ export default function PostGame() {
             if (createRating) {
                 newGame.rating = createRating
             } else {
-                newGame.rating = 0
+                newGame.rating = 1
+            }
+
+            if (createRealeasedDate !== '') {
+                if (Number(createRealeasedDate) > 2023) {
+                    window.alert('el año debe ser menor a 2023')
+                } else {
+                    if (Number(createRealeasedDate) < 0) {
+                        window.alert('el año debe ser mayor a 0000')
+                    } else {
+                        newGame.released = createRealeasedDate
+                    }
+                }
             }
 
             if (createImage !== '') {
@@ -220,7 +232,7 @@ export default function PostGame() {
                     <h3>
                         rating:
                     </h3>
-                    <input type={"number"} onChange={(event) => setCreateRating(event.target.value)} />
+                    <input type={"number"} min={1} max={5} onChange={(event) => setCreateRating(event.target.value)} />
                 </label>
                 <label>
                     <h3>

@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 /* by Local components */
 import BoxCards from "./cardsGames/boxCards";
 
+import './homeAllGames.css'
+
 /* actions */
 import {
     GetAllVGames,
@@ -31,7 +33,7 @@ export default function HomeAllGames() {
 
 
     return (
-        <div>
+        <div className="homeGames">
             <NavBar/>
             <br/>
             <h1>los juegos:</h1>
