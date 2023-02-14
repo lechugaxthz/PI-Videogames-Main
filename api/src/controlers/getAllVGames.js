@@ -1,9 +1,9 @@
 require('dotenv').config();
 const axios = require("axios");
-const { Videogames } = require("../db.js")
+const { Videogame, Genre } = require("../db.js")
 const { KEY_API } = process.env;
 
-const getAllVideogames = async () => {
+const getAPIGames = async () => {
 
     console.log('entrooooooo')
 
@@ -12,7 +12,7 @@ const getAllVideogames = async () => {
     const allVideoGames100 = [];
 
     try {
-        for (let i = 0; i < 5; i++) { /* actualizar el numero de vueltas a 5, ahora está en 1 para no consumir tantos llamados */
+        for (let i = 0; i < 1; i++) { /* actualizar el numero de vueltas a 5, ahora está en 1 para no consumir tantos llamados */
             let ofUrl = await axios.get(url)
             ofUrl.data.results.map(games => {
                 allVideoGames100.push({
@@ -38,12 +38,65 @@ const getAllVideogames = async () => {
             url = ofUrl.data.next
         };
 
-        console.log('TOOOODOSSSS LOS JUEGOOOOOOOSSSS =>>>>>>>> ', allVideoGames100)
+
+
+        /* console.log('TOOOODOSSSS LOS JUEGOOOOOOOSSSS =>>>>>>>> ', allVideoGames100) */
         return allVideoGames100;
     } catch (error) {
-        console.log(error.message)
+        console.log(error)
     }
 
 }
 
-module.exports = getAllVideogames
+
+const getDB_Games = async () => {
+
+    try {
+
+        const createdDB_games = await Videogame.findAll({
+            include: [{
+                model: Genre,
+                atributes: ["name"],
+                throught: {
+                    atributes: []
+                }
+            }]
+        })
+
+        console.log('DB_games ========> ', createdDB_games);
+
+        let resultOfDB = [];
+        for (const key in createdDB_games) {
+            if (createdDB_games.hasOwnProperty(key)) {
+                resultOfDB.push(createdDB_games[key].dataValues);
+            }
+        }
+
+
+
+
+        console.log('DB GAMES ========> ', resultOfDB)
+
+        return resultOfDB
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+const getAllVideogames = async () => {
+
+    try {
+        let resAPI = await getAPIGames()
+        let resDB = await getDB_Games()
+        let allResults = resAPI.concat(resDB)
+        return allResults
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+
+module.exports = { getAllVideogames, getDB_Games }

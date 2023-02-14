@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { GetDetailGame } from "../../redux/action/actions";
 
 
@@ -24,10 +24,13 @@ const DetailGame = () => {
     })
 
     console.log('detaillll ===========> ', resultss) */
-    
+
 
     return (
         <div>
+            <Link to='/videogames'>
+                <button>back</button>
+            </Link>
             <h1>
                 {DetailVGame_byId.name}
             </h1>
@@ -56,7 +59,7 @@ const DetailGame = () => {
             </h4>
             <ul>
                 {
-                DetailVGame_byId.tags
+                    DetailVGame_byId.tags
                 }
             </ul>
 

@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const getAllVideogames = require('../../controlers/getAllVGames');
+const { getAllVideogames, getDB_Games } = require('../../controlers/getAllVGames');
 const getGameByName = require('../../controlers/getByNameQuery');
 const postVGame = require('../../controlers/postVGame');
 const routerVGames = Router();
@@ -10,7 +10,9 @@ routerVGames.get('/', async (req, res) => {
         if (name) {
             console.log(req.query)
             let gameName = await getGameByName(name)
-            res.status(202).json(gameName)
+            let dbGame = await getDB_Games()
+            dbGame = dbGame.filter(game => game.name.toLowerCase().includes(name.toLocaleLowerCase()))
+            res.status(202).json(gameName.concat(dbGame))
         } else {
             let ress = await getAllVideogames()
             res.status(202).json(ress)
@@ -28,32 +30,6 @@ routerVGames.post('/', async (req, res) => {
     } catch (error) {
         res.status(404).json({ error: error.message })
     }
-
-    /* try {
-        const toPost = await Videogame.create({
-            name,
-            description,
-            released,
-            rating,
-            plataforms,
-            image,
-            genres,
-        });
-        genres.forEach(async (element) => {
-            const [genre, created] = await Genre.findOrCreate({
-                where: {
-                    name: element,
-                }
-            });
-            await toPost.addGenre(genre)
-            console.log(created)
-        });
-
-        res.status(200).json({ message: 'juego creado con éxito :D' })
-    } catch (error) {
-        console.log(error.message);
-        res.status(404).json(error.message)
-    } */
 })
 
 module.exports = routerVGames

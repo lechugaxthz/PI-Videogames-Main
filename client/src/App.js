@@ -6,6 +6,7 @@ import './App.css';
 /* import Nav from './components/inNav/nav.jsx'; */
 import DetailGame from './components/detailGame/detailGame';
 import Home from './components/home/home';
+import PostGame from './components/postGame/postGame';
 
 
 
@@ -30,7 +31,8 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/videogames' element={<HomeAllGames />} />
-        <Route path='videogame/:id' element={<DetailGame />} />
+        <Route path='/videogame/:id' element={<DetailGame />} />
+        <Route path='/createVGame' element={<PostGame />} />
       </Routes>
     </div>
   );

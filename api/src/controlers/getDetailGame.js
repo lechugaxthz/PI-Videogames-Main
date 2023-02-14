@@ -1,15 +1,35 @@
 require('dotenv').config();
 const axios = require("axios");
 const { KEY_API } = process.env;
+const { Videogame, Genre } = require("../db.js")
+
 
 
 const getDetailGame = async (id) => {
 
     console.log('entró a getDetail');
 
-    let url = `https://api.rawg.io/api/games/${id}?key=${KEY_API}`;
 
-    
+    if (id.includes('-') || id.length > 6) {
+        try {
+            let DBgame = await Videogame.findByPk(id, {
+                nclude: [{
+                    model: Genre,
+                    atributes: ["name"],
+                    throught: {
+                        atributes: []
+                    }
+                }]
+            })
+            return DBgame
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+
+    let url = `https://api.rawg.io/api/games/${id}?key=${KEY_API}`;
 
     /* console.log('url =>>>>>>>', await axios.get(url)); */
 
@@ -19,11 +39,11 @@ const getDetailGame = async (id) => {
 
         console.log('data =======> ', toEstract);
         /* console.log('results =>>> ', await toEstract) */
-        
+
         /* console.log('relase =>>>>>>> ', toEstract.released)
         console.log('name =>>>>>>> ', toEstract.name) */
 
-        return({
+        return ({
             id: toEstract.id,
             name: toEstract.name,
             description: toEstract.description.replace(/<[^>]+>/g, ''),

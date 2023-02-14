@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FilterGamesClone, ResetGames, ResetGamesFilter, searchGames } from "../../redux/action/actions";
+import { Link } from "react-router-dom";
 import './cssInNav/nav.css'
 
 const NavBar = () => {
@@ -28,7 +29,7 @@ const NavBar = () => {
 
     /* Filter */
     const [A_Z, setA_Z] = useState(false)
-    console.log('true or false =====> ',A_Z);
+    console.log('true or false =====> ', A_Z);
     const [Z_A, setZ_A] = useState(false)
     const [RatingUp, setRatingUp] = useState(false)
     const [RatingDown, setRatingDown] = useState(false)
@@ -99,24 +100,24 @@ const NavBar = () => {
         }
     }
 
-    let toOrder
-    let filteredDB
-    let filteredAPI
-    if (SearchedGamesList.length === 0) {
-        toOrder = [...cloneGames]
-        filteredDB = cloneGames.filter(game => game.createdInDb === true)
-        filteredAPI = cloneGames.filter(game => game.createdInDb !== true)
-    } else {
+
+
+    let toOrder = [...cloneGames]
+    let filteredDB = cloneGames.filter(game => game.createdInDb === true)
+    let filteredAPI = cloneGames.filter(game => game.createdInDb !== true)
+    /*
         toOrder = [...SearchedGamesList]
         filteredDB = SearchedGamesList.filter(game => game.createdInDb === true)
         filteredAPI = SearchedGamesList.filter(game => game.createdInDb !== true)
-    }
+    */
+
+    console.log('Of DATA BASE =====> ', filteredDB);
 
     let ordenado
 
     const toViewInHome = (event) => {
         event.preventDefault()
-        console.log('toOrder in search =======> ',toOrder);
+        console.log('toOrder in search =======> ', toOrder);
         if (!onLyAPI && !onLyDB) {
             console.log('se llego');
             ordenado = toOrder
@@ -148,30 +149,33 @@ const NavBar = () => {
                 dispatch(FilterGamesClone(ordenado))
             }
 
-
-
         }
+
         if (onLyDB) {
             ordenado = filteredDB
+            if (ordenado.length === 0 || ordenado === false) {
+                window.alert('mi loco, no tienes nada en DB')
+            }
             if (A_Z) ordenado = filteredDB.sort(function (a, z) { return a.name.localeCompare(z.name) })
             if (Z_A) ordenado = filteredDB.sort(function (a, z) { return z.name.localeCompare(a.name) })
             if (RatingUp) ordenado = filteredDB.sort(function (low, max) { return low.rating - max.rating })
             if (RatingDown) ordenado = filteredDB.sort(function (low, max) { return max.rating - low.rating })
 
-            if (ordenado.length === 0 || ordenado === false) {
-                window.alert('mi loco, no tienes nada en DB')
-            } else {
-                if (selectedOption !== '') {
-                    if (ordenado.find(game => game.genre === selectedOption)) {
-                        ordenado = ordenado.filter(game => game.genres.find(gen => gen.name === selectedOption))
-                        dispatch(FilterGamesClone(ordenado))
-                    } else {
-                        window.alert('no se encontraron juegos con el filtro indicado en la base de datos')
-                    }
-                } else {
+
+            if (selectedOption !== '') {
+                console.log('ORDENADO EN DB ======> ', ordenado);
+
+                ordenado = ordenado.filter(game => game.genres.find(gen => gen.name == selectedOption))
+                if (ordenado.length) {
                     dispatch(FilterGamesClone(ordenado))
+                } else {
+                    window.alert('no se encontraron juegos con el filtro especificado')
                 }
+
+            } else {
+                dispatch(FilterGamesClone(ordenado))
             }
+
 
             /* ordenado.length === 0 || ordenado === false
                 ? window.alert('mi loco, no tienes nada en DB')
@@ -248,11 +252,25 @@ const NavBar = () => {
 
             <div>
                 <input type='text' placeholder="search game" onChange={getName} />
-                <button onClick={() => { dispatch(searchGames(searchGameName)) }}>Search</button>
+                <button onClick={() => {
+                    dispatch(searchGames(searchGameName))
+                    setViewFilter(!viewFilter)
+                    setA_Z(false)
+                    setRatingUp(false)
+                    setRatingDown(false)
+                    setOnlyDB(false)
+                    setOnlyAPI(false)
+                    dispatch(ResetGamesFilter())
+                }}>Search</button>
             </div>
             <hr />
             <div>
                 <button onClick={() => { dispatch(ResetGames()) }}>Reset</button>
+            </div>
+            <div>
+                <Link to='/createVGame'>
+                    <button>Create Game</button>
+                </Link>
             </div>
         </section >
     )

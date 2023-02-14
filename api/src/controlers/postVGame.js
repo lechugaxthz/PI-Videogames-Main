@@ -9,37 +9,28 @@ const postVGame = async (data) => {
 
     try {
 
-        if (data) {
-            console.log('Data =>>>>>> ', name);
+        const game = await Videogame.create({
+            name,
+            image,
+            description,
+            released,
+            rating,
+            plataforms,
+        })
+        console.log('game =>>>>>>> ', game);
 
-            /* console.log('name =>>>>> ', plataforms); */
+        genres.forEach(async gen => {
+            const [genre, created] = await Genre.findOrCreate({
+                where: {
+                    name: gen,
+                }
+            });
+            await game.addGenre(genre)
+            console.log(created)
+        })
 
-            const game = await Videogame.create({
-                name,
-                image,
-                description,
-                released,
-                rating,
-                plataforms,
+        return 'juego creado con exito :D'
 
-            })
-            console.log('game =>>>>>>> ', game);
-
-            genres.forEach(async gen => {
-                const [genre, created] = await Genre.findOrCreate({
-                    where: {
-                        name: gen,
-                    }
-                });
-                await game.addGenre(genre)
-                console.log(created)
-            })
-
-            return game
-
-        } else {
-            throw new Error('faltan completar campos o algo has metido mal :O')
-        }
     } catch (error) {
         return error.message
     }
